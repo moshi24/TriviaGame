@@ -32,47 +32,56 @@ const myQuestion =   [
 
 $(document).ready(function() {
 
-var time = 30;
-var intervalId;
-var timeRun = false;
+var count = 30;
+var myInterval;
+var correct = 0;
+var incorrect = 0;
 
+function start() {
+    $('.container').hide()
+}
 
    $('#start').on('click', function() {
 
     event.preventDefault();
 
     $(".start").hide();
-
-    quest1();
     
-   })
 
-   function quest1() {
+ 
+       });
+
+//     function timer() {
+//         clearInterval(myInterval);
+//         myInterval = setInterval(decrement,1000);
+    
+//     function decrement() {
+//         count--;
+//         $("#time-remain").html("<h2>"+ "Time remaining: " + count + "</h2>");
+//         }
+      
+
+// }
+//    function quest1() {
        
-        var num = Math.floor(Math.random()* 5);
-    
-        $(".question").append("<h2 class='questionInput'>" + myQuestion[num].question + "</h2>")
        
-    var picked = myQuestion[num].answers;
-    var correct = myQuestion[num].correctAnswer;
+      
+//         $(".question").append("<h2 class='questionInput'>" + myQuestion.question + "</h2>")
+       
+//     var picked = myQuestion[num].answers;
+//     var correct = myQuestion[num].correctAnswer;
 
-        for( var i = 0; i < 4; i++) {
+//         for( var i = 0; i < 4; i++) {
 
-          $(".question").append("<li class='answerInput'>" + picked[i] + "</li>") 
-   }
+//           $(".question").append("<li class='answerInput'>" + picked[i] + "</li>") 
+//    }
 
-    $('.answerInput').on('click', function() {
-    
-        for( var j = 0; j < 4; j++) {
-            if(picked[j] === correct) {
-               console.log();
-          
-            }
-        }
+//     $('.answerInput').on('click', function() {
+//         console.log(this);
+        
+//    })
 
-   })
-
-}
+// }
 
   
 
