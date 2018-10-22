@@ -2,27 +2,27 @@
 
 const myQuestion =   [                               
 { 
-    question: "What is my name?",
-    answers: ["uno", "dos", "tres", "cuatro"],
-    correctAnswer: "uno"
+    question: "Who is the only basketball player to score 100 pts in a single NBA game?",
+    answers: ["Kobe Bryan", "Michael Jordan", "Lebrick James", "Wilt Chamberlain"],
+    correctAnswer: "Wilt Chamberlain"
 },
 { 
-    question: "What the fuck?",
-    answers: ["1", "2", "3", "4"],
-    correctAnswer: "1"
+    question: "In what city would you find the Wizard of Oz?",
+    answers: ["The Emerald City", "Narnia", "Kansas City", "Bogota"],
+    correctAnswer: "The Emerald City"
 },
 { 
-    question: "What the hell?",
-    answers: ["a", "b", "c", "d"],
-    correctAnswer: "b"
+    question: "Hamburgers get their from what European city?",
+    answers: ["Paris", "Hamburg", "Munich", "Lisbon"],
+    correctAnswer: "Hamburg"
 },
 { 
-    question: "What in the world?",
-    answers: ["z", "x", "w", "v"],
-    correctAnswer: "x"
+    question: "Which superheroe is not in the Avengers?",
+    answers: ["Hulk", "Iron", "Batman", "Thor"],
+    correctAnswer: "Batman"
 },
 { 
-    question: "What on earth?",
+    question: "How many continents does the planet earth have?",
     answers: ["4", "5", "6", "7"],
     correctAnswer: "7"
 },
@@ -36,32 +36,51 @@ var solution;
 var currentQuestion;
 var attempted = [];
 var num = Object.keys(myQuestion)[Math.floor(Math.random() * Object.keys(myQuestion).length)]; 
+console.log("hi", num );
 
 
 
-// function start() {
-//     $(".intro").show();
-//     $('#time-remain').hide();
-//     $("#question").hide()
-//     $("#start").function()
-// }
 
-
-$(document).ready(function() {
-
-
-   $('#start').on('click', function() {
-
-    event.preventDefault();
-
-    $(".intro").hide();
-    $("#next").hide();
-    $("#time-remain").show();
-    $("#question").show()
-    timer()
-    question()
-    response()
-});
+    
+    
+    $(document).ready(function() {
+        
+        function start() {
+           $(".intro").show();
+           $('#time-remain').hide();
+           $("#question").hide();
+           $(".choice").hide();
+           $("#next").hide();
+           
+       }   
+    function control() {
+        start();
+        
+        $('#start').on('click', function() {
+            
+            event.preventDefault();
+            
+            $(".intro").hide();
+            $("#next").hide();
+            $("#time-remain").show();
+            $("#question").show()
+            $(".choice").show()
+            timer()
+            question()
+            response()
+        });
+        
+    }    
+        $("#next").on("click", function(){
+        
+                reset();
+                $("#time-remain").show();
+                $("#question").show();
+                $(".choice").show();
+                $("#img").hide();
+                $("#next").hide();
+        
+        })
 
 function timer() {
     clearInterval(myInterval);
@@ -72,12 +91,11 @@ function decrement() {
     $("#time-remain").html("<h2>"+ "Time remaining: " + count + "</h2>");
 
     if( count < 10) {
-        $("#timer-remain").hover(function() {
-            $(this).css("color", "red")
-        });
+        $("#timer-remain").css("background-color", "red");
     }
 
     if( count === 0) {
+        incorrect++;
         $("#time-remain").html("<h1> TIME's UP! </h1>")
         count === 30;
         clearInterval(myInterval);
@@ -90,30 +108,47 @@ function decrement() {
         }).prependTo($("#img"));
         incorrect++;
         $("#next").show();
+        
 
     
         }
     }
 };
 
-
-$("#next").on("click", function(){
-
+    function reset(){
+        
         count = 30;
+        timer()
         num = Object.keys(myQuestion)[Math.floor(Math.random() * Object.keys(myQuestion).length)]; 
-        $("#time-remain").show();
-        $("#question").show();
-        $(".choice").show();
-        $("#img").hide()
-   
-})
+        question(num);
+        response();
+        // $("#result").hide()
+        console.log("Hello", num);
+        if(attempted.includes(num)) {
+            if(attempted.length === 5) {
+                $("#question").hide();
+                $(".choice").hide();
+                $("#time-remain").hide();
+                $("#result").hide()
+                // show stats
+                $("#correct").show();
+                $("#incorrect").show();
+                console.log("abc", attempted);
+                stats();
+            } else {
+                reset();
+            }
+        }
+        
+    }
+
 
     function question() {
-        $("#question").append("<h1>" + myQuestion[num].question + "</h1>");
-        $("#choice-1").append( "<h3>" + myQuestion[num].answers[0] + "</h3>");
-        $("#choice-2").append( "<h3>" + myQuestion[num].answers[1] + "</h3>");
-        $("#choice-3").append( "<h3>" + myQuestion[num].answers[2] + "</h3>");
-        $("#choice-4").append( "<h3>" + myQuestion[num].answers[3] + "</h3>");
+        $("#question").html("<h1>" + myQuestion[num].question + "</h1>");
+        $("#choice-1").html( "<h3>" + myQuestion[num].answers[0] + "</h3>");
+        $("#choice-2").html( "<h3>" + myQuestion[num].answers[1] + "</h3>");
+        $("#choice-3").html( "<h3>" + myQuestion[num].answers[2] + "</h3>");
+        $("#choice-4").html( "<h3>" + myQuestion[num].answers[3] + "</h3>");
 
     }
 
@@ -154,7 +189,14 @@ $("#next").on("click", function(){
         })
     }
 
+    function stats(){
+        $("#start-over").show();
+        $("#correct").text("Correct: " + correct);
+        $("#incorrect").text("Incorrect: " + incorrect);
+        $("#grade").text("Score: " + ((correct/5)*100) + "%");
+    }
 
+    control();
 
   
 
