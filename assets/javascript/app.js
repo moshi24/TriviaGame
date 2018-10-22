@@ -28,60 +28,133 @@ const myQuestion =   [
 },
 ]
 
+var count = 31;
+var myInterval;
+var correct = 0;
+var incorrect = 0;
+var solution;
+var currentQuestion;
+var attempted = [];
+var num = Object.keys(myQuestion)[Math.floor(Math.random() * Object.keys(myQuestion).length)]; 
+
+
+
+// function start() {
+//     $(".intro").show();
+//     $('#time-remain').hide();
+//     $("#question").hide()
+//     $("#start").function()
+// }
 
 
 $(document).ready(function() {
 
-var count = 30;
-var myInterval;
-var correct = 0;
-var incorrect = 0;
-
-function start() {
-    $('.container').hide()
-}
 
    $('#start').on('click', function() {
 
     event.preventDefault();
 
-    $(".start").hide();
+    $(".intro").hide();
+    $("#next").hide();
+    $("#time-remain").show();
+    $("#question").show()
+    timer()
+    question()
+    response()
+});
+
+function timer() {
+    clearInterval(myInterval);
+    myInterval = setInterval(decrement,1000);
+
+function decrement() {
+    count--;
+    $("#time-remain").html("<h2>"+ "Time remaining: " + count + "</h2>");
+
+    if( count < 10) {
+        $("#timer-remain").hover(function() {
+            $(this).css("color", "red")
+        });
+    }
+
+    if( count === 0) {
+        $("#time-remain").html("<h1> TIME's UP! </h1>")
+        count === 30;
+        clearInterval(myInterval);
+        $("#question").hide();
+        $(".choice").hide();
+        $('<img/>', {
+            src: 'assets/images/tenor.gif',
+            height: '400px',
+            width: '400px',
+        }).prependTo($("#img"));
+        incorrect++;
+        $("#next").show();
+
     
+        }
+    }
+};
 
- 
-       });
 
-//     function timer() {
-//         clearInterval(myInterval);
-//         myInterval = setInterval(decrement,1000);
-    
-//     function decrement() {
-//         count--;
-//         $("#time-remain").html("<h2>"+ "Time remaining: " + count + "</h2>");
-//         }
-      
+$("#next").on("click", function(){
 
-// }
-//    function quest1() {
-       
-       
-      
-//         $(".question").append("<h2 class='questionInput'>" + myQuestion.question + "</h2>")
-       
-//     var picked = myQuestion[num].answers;
-//     var correct = myQuestion[num].correctAnswer;
+        count = 30;
+        num = Object.keys(myQuestion)[Math.floor(Math.random() * Object.keys(myQuestion).length)]; 
+        $("#time-remain").show();
+        $("#question").show();
+        $(".choice").show();
+        $("#img").hide()
+   
+})
 
-//         for( var i = 0; i < 4; i++) {
+    function question() {
+        $("#question").append("<h1>" + myQuestion[num].question + "</h1>");
+        $("#choice-1").append( "<h3>" + myQuestion[num].answers[0] + "</h3>");
+        $("#choice-2").append( "<h3>" + myQuestion[num].answers[1] + "</h3>");
+        $("#choice-3").append( "<h3>" + myQuestion[num].answers[2] + "</h3>");
+        $("#choice-4").append( "<h3>" + myQuestion[num].answers[3] + "</h3>");
 
-//           $(".question").append("<li class='answerInput'>" + picked[i] + "</li>") 
-//    }
+    }
 
-//     $('.answerInput').on('click', function() {
-//         console.log(this);
+
+    function response() {
+        $(".choice").on("click", function() {
+            solution = myQuestion[num].correctAnswer;
+            if($(this).text() === solution){
+                correct++;
+                $("#time-remain").hide();
+                $("#question").hide();
+                $(".choice").hide();
+                $('<img/>', {
+                    src: 'assets/images/Winner.gif',
+                    height: '400px',
+                    width: '400px',
+                }).prependTo($("#img"));
+                $("#result").html("<h4>That's Correct!!</h4>");
+                clearInterval(myInterval);           $("#next").show();         
+                
+
+            }
+            if($(this).text() !== solution){
+                incorrect++;
+                $("#time-remain").hide();
+                $("#question").hide();
+                $(".choice").hide();
+                $('<img/>', {
+                    src: 'assets/images/Loser.gif',
+                    height: '400px',
+                    width: '400px',
+                }).prependTo($("#img"));
+                $("#result").html("<h4>That's Incorrect!!</h4>");
+                clearInterval(myInterval);
+                $("#next").show();
+            }
         
-//    })
+        })
+    }
 
-// }
+
 
   
 
